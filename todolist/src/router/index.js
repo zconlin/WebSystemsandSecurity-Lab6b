@@ -1,14 +1,40 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import authenticated from '@/util'
+import Login from '@/views/Login'
+import  Home from '@/views/Home'
 
 Vue.use(VueRouter)
+
+const checkAuth = async (to, from, next) => {
+  try {
+    if (await authenticated()) next()
+    else next({
+      path: '/login',
+      replace: true
+    })
+  } catch (error) {
+    console.error(error.message)
+    next({
+      path: '/login',
+      replace: true
+    })
+  }
+}
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'Home',
+    component: Home,
+    beforeEnter: checkAuth,
+    props: true
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
   },
   {
     path: '/about',
