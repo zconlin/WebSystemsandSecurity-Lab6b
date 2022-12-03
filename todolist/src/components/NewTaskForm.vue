@@ -4,7 +4,7 @@
     <!-- TODO: Add a submit event handler attribute to handle the form submission -->
     <!-- HINT: Remember to pass in the form data to the method so it can pass it to your API -->
     <!-- HINT: Also, you can add .prevent to the end of the attribute's key to keep the page from reloading -->
-    <v-form v-on:click="handler">
+    <v-form v-on:submit="handler">
 
       <v-container>
         <v-row>

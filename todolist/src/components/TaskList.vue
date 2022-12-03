@@ -14,7 +14,7 @@
 
               <!-- TODO: Add a v-if and v-else check here based on the current task's Done property -->
               <!-- Does this check the done status by default or do I need to clarify it needs DONE? -->
-              <v-icon v-if="true">check_box</v-icon>
+              <v-icon v-if="item.done">check_box</v-icon>
               <v-icon v-else>check_box_outline_blank</v-icon>
 
             </v-btn>
@@ -53,7 +53,10 @@ export default {
     // HINT: For the tasks prop, set the default value to:
     // default: () => []
     tasks: {
-      default: () => []
+      // type=Array{
+      //   Array
+        default: () => []
+      // },
     },
     updateTask: {
       Type: Function

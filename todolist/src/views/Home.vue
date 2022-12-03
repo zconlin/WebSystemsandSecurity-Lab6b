@@ -68,12 +68,13 @@ export default {
         {
           method: `POST`,
           credentials: `include`,
-          data: this.form(),
+          body: json.stringify({date:this.form.date, text:this.form.text})
         }
       ).then(response => {
         if (response.ok) {
-          readTasks()
-          // this.form() = ""
+          this.readTasks()
+          this.form.Date = getCurrentDate()
+          this.form.Text = ""
         }
       })
     },
