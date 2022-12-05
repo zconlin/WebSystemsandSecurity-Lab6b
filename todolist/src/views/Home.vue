@@ -6,10 +6,10 @@
 
       <!-- TODO: Add your NewTaskForm component -->
       <!-- Make sure to pass in any necessary props -->
-          <NewTaskForm :newTask="newTask"></NewTaskForm>
+          <NewTaskForm :form="form" :createTask="createTask"></NewTaskForm>
 
-
-      <v-divider></v-divider>
+<!-- 
+      <v-divider></v-divider> -->
       <v-list subheader two-line flat>
         <v-subheader>
 
@@ -30,6 +30,8 @@
 
 <script>
 import { getCurrentDate, formatDate } from '@/util'
+import TaskList from "@/components/TaskList.vue"
+import NewTaskForm from "@/components/NewTaskForm.vue"
 
 // TODO: Import the components you want to use from their files
 export default {
@@ -41,7 +43,13 @@ export default {
   },
   props: {
     // TODO: Add the user object as a prop that's passed in from the App.vue component
-    user
+    user: {
+        Type: Object,
+        Default: {
+        Type: Object,
+        Username: ""
+        }
+    }
   },
   data: () => ({
     fetched: false, // This keeps us from getting an error when the page loads, but there's no data
@@ -90,9 +98,11 @@ export default {
         // method on any GET requests.
       ).then(response => {
         if (response.ok) {
-          this.fetched()
-          this.tasks()
+          return response.json()
         }
+      }).then(response => {
+        this.fetched = true
+        this.tasks = response
       })
     },
     updateTask(task) {

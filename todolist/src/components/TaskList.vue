@@ -53,10 +53,8 @@ export default {
     // HINT: For the tasks prop, set the default value to:
     // default: () => []
     tasks: {
-      // type=Array{
-      //   Array
-        default: () => []
-      // },
+      type: Array,
+      default: () => []
     },
     updateTask: {
       Type: Function
