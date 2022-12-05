@@ -69,8 +69,8 @@ export default {
     user: {
         Type: Object,
         Default: {
-        Type: Object,
-        Username: ""
+          Type: Object,
+          Username: ""
         }
     }
   },

@@ -4,17 +4,16 @@
 
       <!-- TODO: Add a v-for attribute on this tag -->
       <!-- Remember to use the :key attribute to define a key for each task! -->
-      <v-list-item v-for="task in tasks" :key="task._id">
+      <v-list-item v-for="task in tasks" :key="task.id" link>
 
         <template>
           <v-list-item-action>
 
-            <!-- TODO: Add a click event handler attribute here that updates a task -->
-            <v-btn v-on:click="updateTask(task)" icon> 
+            <!-- TODO: Add a click event handler attribute here that updates an task -->
+            <v-btn icon @click="updateTask(task)">
 
               <!-- TODO: Add a v-if and v-else check here based on the current task's Done property -->
-              <!-- Does this check the done status by default or do I need to clarify it needs DONE? -->
-              <v-icon v-if="item.done">check_box</v-icon>
+              <v-icon v-if="task.Done">check_box</v-icon>
               <v-icon v-else>check_box_outline_blank</v-icon>
 
             </v-btn>
@@ -34,7 +33,8 @@
           <v-list-item-action>
 
             <!-- TODO: Add a click event handler attribute here that deletes this task -->
-            <v-btn v-on:click="deleteTask(task)" icon> 
+            <v-btn @click="deleteTask(task)" icon>
+
               <v-icon color="red">delete</v-icon>
             </v-btn>
           </v-list-item-action>
@@ -57,11 +57,22 @@ export default {
       default: () => []
     },
     updateTask: {
-      Type: Function
+      type: Function,
+      required: true
     },
     deleteTask: {
-      Type: Function
+      type: Function,
+      required: true
     }
   }
 }
 </script>
+
+
+
+
+
+
+
+
+

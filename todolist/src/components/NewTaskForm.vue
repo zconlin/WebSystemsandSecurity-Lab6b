@@ -4,7 +4,7 @@
     <!-- TODO: Add a submit event handler attribute to handle the form submission -->
     <!-- HINT: Remember to pass in the form data to the method so it can pass it to your API -->
     <!-- HINT: Also, you can add .prevent to the end of the attribute's key to keep the page from reloading -->
-    <v-form v-on:submit="handler">
+    <v-form v-on:submit="createTask(form)">
 
       <v-container>
         <v-row>
@@ -12,7 +12,7 @@
           <v-col cols="12" xs="12" sm="6">
 <!-- Check the bindings -->
             <!-- TODO: Bind this input to the Text property value of the form prop -->
-            <v-text-field v-model="Text" label="Add a task..." prepend-icon="edit" required></v-text-field>
+            <v-text-field v-model="form.Text" label="Add a task..." prepend-icon="edit" required></v-text-field>
 
           </v-col>
           <v-col cols="12" xs="12" sm="4">
@@ -20,12 +20,12 @@
               <template v-slot:activator="{ on }">
 
                 <!-- TODO: Bind this input to the Date property value of the form prop -->
-                <v-text-field v-model="Date" label="When should the task be done?" prepend-icon="event" v-on="on"></v-text-field>
+                <v-text-field v-model="form.Date" label="When should the task be done?" prepend-icon="event" v-on="on"></v-text-field>
 
               </template>
 
               <!-- TODO: Also bind this input to the Date property value of the form prop -->
-              <v-date-picker v-model="Date" @input="menu = false"></v-date-picker>
+              <v-date-picker v-model="form.Date" @input="menu = false"></v-date-picker>
 
             </v-menu>
           </v-col>
@@ -48,8 +48,14 @@ export default {
   props: {
     // TODO: Figure out any props that you'll need from this component's parent and add it/them here
     // Remember to add the prop as an attribute to this component's html tag
-    getCurrentDate,
-    formatDate
+    form: {
+    Text: "",
+    Date: getCurrentDate()
+    // formatDate
+    },
+    createTask : {
+      type: Function
+    }
   },
   data: () => ({
     menu: false,

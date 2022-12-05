@@ -14,13 +14,13 @@
         <v-subheader>
 
           <!-- TODO: use the `user` prop to display the user's username here -->
-          <AppBar :user="user"></AppBar>'s Tasks:
+          {{user.UserName}}'s Tasks:
 
         </v-subheader>
 
         <!-- TODO: Add your TaskList component -->
         <!-- Make sure to pass in any necessary props -->
-        <TaskList :taskList="taskList"></TaskList>
+        <TaskList :tasks="tasks" :deleteTask="deleteTask" :updateTask="updateTask"></TaskList>
 
 
       </v-list>
@@ -46,8 +46,8 @@ export default {
     user: {
         Type: Object,
         Default: {
-        Type: Object,
-        Username: ""
+          Type: Object,
+          Username: ""
         }
     }
   },
@@ -69,27 +69,31 @@ export default {
   methods: {
     createTask(form) {
       // TODO: Use fetch() to send a POST request to your API that includes the data from this.form
-      // TODO: Remember to get the updated task list when it's done
-      // TODO: Remember to reset the values in this.form to their initial values when it's done
       fetch(
-        `${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks/${task._id}`,
-        {
+       `${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks/`,
+      // TODO: Remember to get the updated task list when it's done
+      {
           method: `POST`,
           credentials: `include`,
-          body: json.stringify({date:this.form.date, text:this.form.text})
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ Text: this.form.Text, Date: this.form.Date})
         }
-      ).then(response => {
+        ).then(response => {
+        // Here we're just checking if the response was successful or not before
+        // trying to do anything about it.
         if (response.ok) {
+          // If it is successful, we want to update the task list.
           this.readTasks()
-          this.form.Date = getCurrentDate()
-          this.form.Text = ""
         }
       })
+      // TODO: Remember to reset the values in this.form to their initial values when it's done
+      this.form.Text= ""
+      this.form.Date= getCurrentDate()
     },
     readTasks() {
       // TODO: Use fetch() to send a GET request to your API and update this.fetched and this.tasks with the data that's returned
       fetch(
-        `${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks/${task._id}`,
+        `${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks`,
         {
           method: `GET`,
           credentials: `include`,
@@ -105,10 +109,26 @@ export default {
         this.tasks = response
       })
     },
-    updateTask(task) {
-      // TODO: Use fetch() to send a PUT request to your API to update an task to be Done/not Done.
-      // TODO: Remember that the task's ID should be included in the path of the request, i.e. http://yourserverurl/api/v1/tasks/2r984hfiwufw948feoi
-      // TODO: Remember to get the updated task list when it's done
+    updateTask(task) { 
+      fetch(
+        // The first parameter is a string that contains the full URL to your endpoint
+        `${process.env.VUE_APP_API_ORIGIN}/api/v1/tasks/${task._id}`,
+  
+        {
+          method: `PUT`,
+          credentials: `include`,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ Done: !task.Done})
+
+        }
+      ).then(response => {
+        if (response.ok) {
+          return response.json()
+        }
+      })
+      .then(response => {
+      this.readTasks()
+      })
     },
     // This method is given to you. Use it to see how to make fetch() requests.
     deleteTask(task) {

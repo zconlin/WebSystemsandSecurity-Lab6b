@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import authenticated from '@/util'
+import {authenticated} from '@/util/index.js'
 import Login from '@/views/Login'
 import Home from '@/views/Home'
 
